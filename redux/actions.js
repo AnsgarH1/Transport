@@ -1,7 +1,7 @@
 
 export const STATION_SEARCH_RESULT = 'STATION_SEARCH_RESULT'
 
-export const CREATE_ANNOTATIONS = "CREATE_ANNOTATIONS"
+export const UPDATE_MAP_FEATURES = "UPDATE_MAP_FEATURES"
 
 export const UPDATE_UI = "UPDATE_UI"
 
@@ -10,8 +10,8 @@ export const updateUI = data => ({
     payload: data
 })
 
-export const createAnnotations = data => ({
-    type: CREATE_ANNOTATIONS,
+export const updateMapFeatures = data => ({
+    type: UPDATE_MAP_FEATURES,
     payload: data
 })
 

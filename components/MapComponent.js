@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { View, StyleSheet, PermissionsAndroid } from 'react-native'
 import { connect } from 'react-redux'
 import store from '../redux/store'
-import { updateUI } from '../redux/actions'
+import { updateMapFeatures } from '../redux/actions'
 
 import MapFlyTo from '../mapActions/flyTo'
 
@@ -19,7 +19,7 @@ class MapComponent extends Component {
 
     componentDidMount() {
         this.getLocation()
-        
+
     }
 
     getLocation = () => {
@@ -36,7 +36,7 @@ class MapComponent extends Component {
             console.warn(err);
         });
 
-        
+
     }
 
     componentDidUpdate() {
@@ -44,18 +44,21 @@ class MapComponent extends Component {
         this.FlyTo()
     }
     FlyTo = () => {
-        const state = this.props.UI
+        const state = this.props.MapFeatures
 
         if (state.mapUI.flyToActive) {
-            this._mapView.flyTo(this.props.UI.mapUI.coordinates)
+
+            this._mapView.flyTo(state.mapUI.coordinates)
             this._mapView.zoomLevel = 15
+
+
             const disableFlyTo = {
                 mapUI: {
                     flyToActive: false,
                     coordinates: []
                 }
             }
-            store.dispatch(updateUI(disableFlyTo))
+            store.dispatch(updateMapFeatures(disableFlyTo))
         }
     }
 
@@ -106,8 +109,7 @@ const mapStyles = MapboxGL.StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        MapFeatures: state.MapFeatures,
-        UI: state.UI
+        MapFeatures: state.MapFeatures
     }
 }
 

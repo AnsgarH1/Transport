@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 
 import { View, StyleSheet, StatusBar, KeyboardAvoidingView, Dimensions } from 'react-native'
-import { Card, Text, Button } from 'react-native-elements'
 
 import MapComponent from '../components/MapComponent'
 import SearchStationComponent from '../components/SearchStationComponent'
-
+import SearchHereComponent from '../components/SearchHereComponent';
 
 export default class MainScreen extends Component {
     componentDidMount(){
@@ -22,6 +21,7 @@ export default class MainScreen extends Component {
                 </View>
 
                 <View style={styles.content}>
+                    <SearchHereComponent/>
                     <SearchStationComponent />
                 </View>
             </View>

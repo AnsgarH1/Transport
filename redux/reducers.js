@@ -1,18 +1,9 @@
-import { CREATE_ANNOTATIONS, STATION_SEARCH_RESULT, UPDATE_UI } from './actions'
+import { UPDATE_MAP_FEATURES, STATION_SEARCH_RESULT, UPDATE_UI } from './actions'
 
 
 import { combineReducers } from 'redux'
 
 const merge = (prev, next) => Object.assign({}, prev, next)
-
-const annotationReducer = (state = {}, action) => {
-    switch (action.type) {
-        case CREATE_ANNOTATIONS:
-            return merge(state, action.payload)
-        default:
-            return state
-    }
-}
 
 const stationSearchReducer = (state = {}, action) => {
     switch (action.type) {
@@ -28,9 +19,14 @@ const apiReducer = combineReducers({
     StationSearchResults: stationSearchReducer
 })
 
-const mapReducer = combineReducers({
-    annotations: annotationReducer
-})
+const mapReducer = (state = {}, action) => {
+    switch (action.type) {
+        case UPDATE_MAP_FEATURES:
+            return (merge(state, action.payload))
+        default:
+            return state
+    }
+}
 
 const uiReducer = (state = {}, action) => {
     switch (action.type) {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateUI, createAnnotations } from '../redux/actions'
+import { updateUI, updateMapFeatures } from '../redux/actions'
 import store from '../redux/store';
 
 import findStation from '../rmvAPI/stationSearch'
@@ -65,7 +65,7 @@ class SearchStationComponent extends Component {
 
 
 
-    store.dispatch(createAnnotations(newAnnotation))
+    store.dispatch(updateMapFeatures(newAnnotation))
     store.dispatch(updateUI(selectedItem))
 
     MapFlyTo(item.StopLocation.lon, item.StopLocation.lat)

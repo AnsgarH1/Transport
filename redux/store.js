@@ -2,20 +2,25 @@ import { createStore } from 'redux'
 
 import reducer from './reducers'
 
-import { updateUI, createAnnotations } from './actions'
+import { updateUI, updateMapFeatures } from './actions'
 
 const store = createStore(reducer)
 
-const UI = {
-    selectedItems: {},
+const mapFeatures = {
     mapUI: {
         flyToActive: false,
-        coordinates: []
+        coords: []
     }
 }
 
+const UI = {
+    selectedStation: {
+        StopLocation: null,
+        flyToSelected: false
+    }
+}
 
-
+store.dispatch(updateMapFeatures(mapFeatures))
 store.dispatch(updateUI(UI))
 
 export default store

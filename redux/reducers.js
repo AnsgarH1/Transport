@@ -1,4 +1,4 @@
-import { UPDATE_MAP_FEATURES, STATION_SEARCH_RESULT, UPDATE_UI } from './actions'
+import { UPDATE_MAP_FEATURES, UPDATE_STATION_SEARCH_RESULT, UPDATE_UI } from './actions'
 
 
 import { combineReducers } from 'redux'
@@ -7,7 +7,7 @@ const merge = (prev, next) => Object.assign({}, prev, next)
 
 const stationSearchReducer = (state = {}, action) => {
     switch (action.type) {
-        case STATION_SEARCH_RESULT:
+        case UPDATE_STATION_SEARCH_RESULT:
             return (merge(state, action.payload))
         default:
             return state

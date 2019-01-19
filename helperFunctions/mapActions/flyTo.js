@@ -1,6 +1,6 @@
-import store from '../redux/store'
+import store from '../../redux/store'
 
-import { updateMapFeatures } from '../redux/actions'
+import { updateMapFeatures } from '../../redux/actions'
 
 export default MapFlyTo = (long, lat) => {
 

@@ -1,5 +1,5 @@
-import { CREATE_ANNOTATIONS, createAnnotations } from '../redux/actions'
-import { store } from '../redux/store'
+import { CREATE_ANNOTATIONS, createAnnotations } from '../../redux/actions'
+import { store } from '../../redux/store'
 
 const merge = (prev, next) => Object.assign({}, prev, next)
 

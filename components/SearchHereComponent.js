@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { Button } from 'react-native-elements';
 
-import searchStationByCoords from '../rmvAPI/stationSearchByCoordinates'
+import searchStationByCoords from '../helperFunctions/rmvAPI/stationSearchByCoordinates'
 
 class SearchHere extends Component {
     static propTypes = {

@@ -1,5 +1,5 @@
 
-export const STATION_SEARCH_RESULT = 'STATION_SEARCH_RESULT'
+export const UPDATE_STATION_SEARCH_RESULT = 'UPDATE_STATION_SEARCH_RESULT'
 
 export const UPDATE_MAP_FEATURES = "UPDATE_MAP_FEATURES"
 
@@ -15,7 +15,18 @@ export const updateMapFeatures = data => ({
     payload: data
 })
 
-export const stationSearchResult = stationList => ({
-    type: STATION_SEARCH_RESULT,
+export const updateStationSearchResult = stationList => ({
+    type: UPDATE_STATION_SEARCH_RESULT,
     payload: stationList
+})
+
+
+export const deactivateFlyToAction = () => ({
+    type: UPDATE_MAP_FEATURES,
+    payload: {
+        mapUI: {
+            flyToActive: false,
+            coordinates: []
+        }
+    }
 })

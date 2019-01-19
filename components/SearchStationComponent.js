@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { updateUI, updateMapFeatures } from '../redux/actions'
 import store from '../redux/store';
 
-import findStation from '../rmvAPI/stationSearch'
-import MapFlyTo from '../mapActions/flyTo'
+import findStation from '../helperFunctions/rmvAPI/stationSearch'
+import MapFlyTo from '../helperFunctions/mapActions/flyTo'
 
 
 import { Text, View, StyleSheet, ScrollView } from 'react-native'
@@ -88,7 +88,7 @@ class SearchStationComponent extends Component {
       )
 
     } else {
-      return (<View></View>)
+      return
     }
   }
 

@@ -1,5 +1,5 @@
-import {} from '../redux/actions'
-import store from '../redux/store'
+import {} from '../../redux/actions'
+import store from '../../redux/store'
 
 export default searchStationByCoords = (long, lat) =>{
     let baseUrlString = 'https://www.rmv.de/hapi/location.nearbystops?accessId=2e275638-45cb-4f79-b647-dcbbfb7a76e2&format=json&type=S&originCoordLat=' + lat + '&originCoordLong=' + long;

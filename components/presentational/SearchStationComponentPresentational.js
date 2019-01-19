@@ -14,7 +14,7 @@ export class SearchStationComponentPresentational extends Component {
                 </ScrollView>
             )
         } else {
-            return (<View><Text>keine ergebnisse</Text></View>)
+            return (null)
         }
     }
 

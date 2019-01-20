@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { connect } from 'react-redux'
-import { updateStationSearchResult, updateUI, updateMapFeatures, } from '../../redux/actions';
+import { updateStationSearchResult, updateUI, updateMapFeatures, updateDepartureResults, } from '../../redux/actions';
 
 import SearchStationComponentPresentational from '../presentational/SearchStationComponentPresentational';
 import { ListItem } from 'react-native-elements';
@@ -26,6 +26,17 @@ class SearchStationContainer extends Component {
             listItems: null
         })
     }
+
+    getDepartures = async (stationExtId) => {
+
+        apiUrl = 'https://www.rmv.de/hapi/departureBoard?accessId=2e275638-45cb-4f79-b647-dcbbfb7a76e2&format=json&type=S&extId=' + stationExtId
+
+        await fetch(apiUrl, { method: 'GET' })
+            .then((response) => response.json())
+            .then((response) => { this.props.updateDepartureResults(response) })
+            .catch(error => console.log("Error while fetching departure Results: ", error))
+    }
+
 
     getStationResults = async (stationName = '') => {
         apiUrl = 'https://www.rmv.de/hapi/location.name?accessId=2e275638-45cb-4f79-b647-dcbbfb7a76e2&format=json&type=S&input=' + stationName;
@@ -55,12 +66,14 @@ class SearchStationContainer extends Component {
     }
 
     onItemSelection = item => {
-        this.setState({TextInput: item.StopLocation.name})
+        this.setState({ TextInput: item.StopLocation.name })
         item.flyToSelected = true
-        this.props.updateUserInfo({ selectedStation: item})
-        
-        
-        console.log(store.getState())
+
+
+        this.props.updateUserInfo({ selectedStation: item })
+        const extID = item.StopLocation.extId
+        this.getDepartures(extID)
+
     }
 
     render() {
@@ -84,7 +97,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = ({
     updateResults: updateStationSearchResult,
     updateUserInfo: updateUI,
-    updateMapFeature: updateMapFeatures
+    updateMapFeature: updateMapFeatures,
+    updateDepartureResults: updateDepartureResults
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchStationContainer)

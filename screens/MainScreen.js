@@ -7,6 +7,7 @@ import { mainScreenStyle } from '../styles/styles'
 import MapContainer from '../components/container/MapContainer'
 import SearchStationContainer from '../components/container/SearchStationContainter';
 import LocatorButton from '../components/container/LocatorButtonContainer';
+import StationInfoContainer from '../components/container/StationInfoContainer';
 
 export default class MainScreen extends Component {
    
@@ -20,7 +21,9 @@ export default class MainScreen extends Component {
                 </View>
 
                 <View style={mainScreenStyle.content}>
+                    <StationInfoContainer/>
                     <LocatorButton />
+
                     <SearchStationContainer />
 
                 </View>

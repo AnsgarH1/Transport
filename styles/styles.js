@@ -28,7 +28,7 @@ export const mainScreenStyle = StyleSheet.create({
 export const SearchStationInputStyle = StyleSheet.create({
     container: {
         alignItems: 'center',
-        backgroundColor: theme.PRIMARY_COLOR,
+        backgroundColor: theme.BACKGROUND_COLOR,
         width: '100%',
         borderRadius: 5,
         borderColor: theme.PRIMARY_COLOR_LIGHT,
@@ -38,17 +38,17 @@ export const SearchStationInputStyle = StyleSheet.create({
     },
     labelStyle: {
         fontSize: theme.FONT_SIZE_LARGE,
-        color: theme.ON_PRIMARY_COLOR
+        color: theme.ON_BACKGROUND_COLOR
     },
     inputContainer: {
 
-        backgroundColor: theme.BACKGROUND_COLOR
+        backgroundColor: theme.PRIMARY_COLOR_LIGHT
     },
     scrollViewStyle: {
         padding: 4,
         width: '100%',
         height: 200,
-        backgroundColor: theme.PRIMARY_COLOR
+        backgroundColor: theme.BACKGROUND_COLOR
     }
 }
 )
@@ -76,10 +76,78 @@ export const locatorStyle = StyleSheet.create({
         marginBottom: 8,
         marginLeft: '85%',
         opacity: theme.CONTAINER_OPACITY,
-        backgroundColor: theme.PRIMARY_COLOR,
+        backgroundColor: theme.BACKGROUND_COLOR,
         justifyContent:'center'
     },
     Icon: {
-        fontSize: theme.FONT_SIZE_LARGE
+        fontSize: theme.FONT_SIZE_LARGE,
+        color: theme.ON_BACKGROUND_COLOR
+    }
+})
+
+export const stationInfoStyle = StyleSheet.create({
+    container: {
+        backgroundColor: theme.BACKGROUND_COLOR,
+        width: '70%',
+        height: 300,
+        borderColor: theme.PRIMARY_COLOR_LIGHT,
+        borderWidth: 1,
+        borderRadius: 20,
+        margin: 4,
+        opacity: theme.CONTAINER_OPACITY,
+        justifyContent: 'space-evenly',
+        alignItems: 'center'
+    },
+    title: {
+        color: theme.ON_BACKGROUND_COLOR,
+        fontSize: theme.FONT_SIZE_MEDIUM,
+        textAlign: 'center'
+    },
+    titleContainer: {
+        flexDirection: 'row',
+        alignItems:'center',
+        flex: 1,
+        width: "90%"
+    },
+    contentText: {
+        color: theme.ON_BACKGROUND_COLOR,
+        fontSize: theme.FONT_SIZE_SMALL
+    },
+    contentContainer: {
+        flex: 3,
+        width: '90%',
+        borderTopColor: theme.PRIMARY_COLOR_LIGHT,
+        borderTopWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    buttonContainer: {
+        width: '90%',
+        flex: 1,
+        borderTopColor: theme.PRIMARY_COLOR_LIGHT,
+        borderTopWidth: 1,
+
+        alignItems: 'center',
+        justifyContent:'space-evenly',
+        flexDirection: 'row'
+    },
+    button: {
+        backgroundColor: theme.PRIMARY_COLOR_DARK,
+        borderColor: theme.PRIMARY_COLOR_LIGHT,
+        height: 40,
+        width: 100
+    },
+    scrollViewStyleContainer: {
+        padding: 4,
+        width: 230,
+        height: 150,
+        backgroundColor: theme.BACKGROUND_COLOR,
+        
+    },
+    listItem: {
+        margin: 2,
+        backgroundColor: theme.PRIMARY_COLOR_LIGHT,
+
     }
 })

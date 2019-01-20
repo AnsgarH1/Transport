@@ -12,7 +12,7 @@ export class LocatorButtonPresentational extends Component {
         return (
             <TouchableOpacity activeOpacity={0.5} onPress={this.onPressHandler}>
                 <View style={locatorStyle.container}>
-                    <Icon name='my-location' style={locatorStyle.Icon} color={theme.ON_PRIMARY_COLOR} />
+                    <Icon name='my-location' style={locatorStyle.Icon} color={theme.ON_BACKGROUND_COLOR} />
                 </View>
             </TouchableOpacity>
         )

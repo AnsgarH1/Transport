@@ -3,7 +3,7 @@ import { View, PermissionsAndroid } from 'react-native'
 import { connect } from 'react-redux'
 
 import MapComponentPresentational from '../presentational/MapComponentPresentational'
-import { deactivateFlyToAction, updateMapFeatures, updateUI } from '../../redux/actions';
+import { deactivateFlyToAction, updateMapFeatures, updateUI, newSelectedStation } from '../../redux/actions';
 
 import { LocationPermissionText } from '../../styles/texts'
 
@@ -32,12 +32,21 @@ const feature = {
 export class MapComponent extends Component {
 
     componentDidMount() {
+        //Sets the selected Station to null
+        this.props.updateUserInfo({
+            selectedStation: {
+                StopLocation: null,
+                flyToSelected: false
+            }
+        })
+
+
         //Asks for LocationPermission
         this.requestPositionPermission()
 
         //Gets the users Location and flies to it
         navigator.geolocation.getCurrentPosition(position => {
-            console.log("USER_LOCATION_RECEIVED, ",position)
+            console.log("USER_LOCATION_RECEIVED, ", position)
             this.props.updateUserInfo({ position })
             this.props.updateMapUI({
                 mapUI: {
@@ -103,13 +112,14 @@ export class MapComponent extends Component {
                     }
                 }
             })
-            //Disables the the activated Station
-            this.props.updateUserInfo({
+            //Disables the flyTo to the selected Station
+            this.props.updateSelectedStation({
                 selectedStation: {
-                    StopLocation: null,
+                    ...this.props.selectedStation,
                     flyToSelected: false
                 }
             })
+            console.log("STATE_UPDATED", this.props.userInfo)
         }
 
     }
@@ -137,7 +147,8 @@ const mapDispatchToProps = dispatch => {
     return {
         deactivateFlyTo: () => dispatch(deactivateFlyToAction()),
         updateMapUI: newMapData => dispatch(updateMapFeatures(newMapData)),
-        updateUserInfo: newUserData => dispatch(updateUI(newUserData))
+        updateUserInfo: newUserData => dispatch(updateUI(newUserData)),
+        updateSelectedStation: newStationData => dispatch(newSelectedStation(newStationData))
     }
 }
 

@@ -13,9 +13,15 @@ export class MapComponentPresential extends Component {
         super(props)
     }
     //Activates the MapboxGL.MapView FlyTo function wich flies to a set of coordinates
-    mapFlyTo = (coords, duration = 1000) => {
-        console.log('Here2')
-        this._mapView.flyTo([coords.long, coords.lat], duration)
+    mapFlyTo = (coords, duration = 2000) => {
+
+        this._mapView.setCamera({
+            centerCoordinate: [coords.long, coords.lat],
+            duration: duration,
+            zoom: 15.5,
+            mode: MapboxGL.CameraModes.Flight,
+        })
+
     }
 
     returnSymbols = () => {
@@ -44,9 +50,13 @@ export class MapComponentPresential extends Component {
                     style={{ flex: 1 }}
                     debugActive
                     attributionEnabled={false}
-                    logoEnabled={false}>
+                    logoEnabled={false}
+                    compassEnabled={false}
+                    pitchEnabled={false}
+                    localizeLabesl={true}>
 
                 </MapboxGL.MapView>
+                {this.props.MapFeatures != null ? this.returnSymbols : null}
             </View>
         )
     }

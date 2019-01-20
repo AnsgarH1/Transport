@@ -4,7 +4,7 @@
 export default {
     FONT_SIZE_SMALL: 12,
     FONT_SIZE_MEDIUM: 14,
-    FONT_SIZE_LARGE: 16,
+    FONT_SIZE_LARGE: 18,
 
 
     //blueGrey
@@ -17,6 +17,8 @@ export default {
     ON_PRIMARY_COLOR_DARK: '#FFFFFF',
 
     BACKGROUND_COLOR: '#FFFFFF',
-    ON_BACKGROUND_COLOR: '#000000'
+    ON_BACKGROUND_COLOR: '#000000',
+
+    CONTAINER_OPACITY: 0.7
 
 }

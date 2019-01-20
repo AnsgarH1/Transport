@@ -33,7 +33,7 @@ export const SearchStationInputStyle = StyleSheet.create({
         borderRadius: 5,
         borderColor: theme.PRIMARY_COLOR_LIGHT,
         borderWidth: 1,
-
+        opacity: theme.CONTAINER_OPACITY,
         padding: 4
     },
     labelStyle: {
@@ -67,3 +67,19 @@ export const mapStyles = MapboxGL.StyleSheet.create({
     }
 })
 
+export const locatorStyle = StyleSheet.create({
+    container: {
+        borderRadius: 25,
+        width: 50,
+        height: 50,
+        margin: 4,
+        marginBottom: 8,
+        marginLeft: '85%',
+        opacity: theme.CONTAINER_OPACITY,
+        backgroundColor: theme.PRIMARY_COLOR,
+        justifyContent:'center'
+    },
+    Icon: {
+        fontSize: theme.FONT_SIZE_LARGE
+    }
+})

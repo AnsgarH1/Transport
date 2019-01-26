@@ -61,9 +61,14 @@ export const styles = StyleSheet.create({
 })
 
 export const mapStyles = MapboxGL.StyleSheet.create({
-    AnnotationIcon: {
-        iconImage: AnnotationIcon,
-        iconSize: 0.1
+    icon: {
+        iconImage: '{icon}',
+        iconSize: 1.5
+    },
+    Line: {
+        lineColor: theme.SECONDARY_COLOR,
+        lineWidth: 3.3,
+        lineOpacity: 0.8
     }
 })
 

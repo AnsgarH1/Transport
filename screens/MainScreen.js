@@ -5,12 +5,11 @@ import { mainScreenStyle } from '../styles/styles'
 
 
 import MapContainer from '../components/container/MapContainer'
-import SearchStationContainer from '../components/container/SearchStationContainter';
 import LocatorButton from '../components/container/LocatorButtonContainer';
-import StationInfoContainer from '../components/container/StationInfoContainer';
+import SearchStationContainer from '../components/container/SearchStationContainter'
 
 export default class MainScreen extends Component {
-   
+
     render() {
         return (
             <View style={mainScreenStyle.mainScreen}>
@@ -19,15 +18,16 @@ export default class MainScreen extends Component {
                 <View style={mainScreenStyle.mapView} >
                     <MapContainer />
                 </View>
-
                 <View style={mainScreenStyle.content}>
-                    <StationInfoContainer/>
                     <LocatorButton />
-
                     <SearchStationContainer />
+
 
                 </View>
             </View>
         )
     }
 }
+/**
+ *  <SearchStationContainer />
+ */

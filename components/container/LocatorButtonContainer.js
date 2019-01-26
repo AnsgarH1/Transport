@@ -1,23 +1,19 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import LocatorButtonPresentational from '../presentational/LocatorButtonPresentational';
-import { updateMapFeatures } from '../../redux/actions';
+import { activateMapFlyTo } from '../../redux/actions/uxActions';
 
 export class LocatorButton extends Component {
 
-
+    componentDidUpdate() {
+        console.log(this.props.state)
+    }
     onPressHandler = () => {
-        console.log(this.props.userPosition)
-        this.props.updateMapUI({
-            mapUI: {
-                flyToActive: true,
-                coords: {
-                    long: this.props.userPosition.coords.longitude,
-                    lat: this.props.userPosition.coords.latitude
-                }
-            }
-        })
+        const coords = {
+            long: this.props.userPosition.longitude,
+            lat: this.props.userPosition.latitude
+        }
+        this.props.mapFlyTo(coords)
     }
 
     render() {
@@ -28,11 +24,12 @@ export class LocatorButton extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    userPosition: state.UI.position
+    userPosition: state.UserData.position,
+    state: state
 })
 
-const mapDispatchToProps = {
-    updateMapUI: updateMapFeatures
-}
+const mapDispatchToProps = (dispatch) => ({
+    mapFlyTo: (coords) => dispatch(activateMapFlyTo(coords))
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(LocatorButton)

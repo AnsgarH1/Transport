@@ -9,8 +9,7 @@ export const mainScreenStyle = StyleSheet.create({
         flex: 1,
     },
     mapView: {
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height
+        flex: 1
     },
     content: {
         height: '100%',
@@ -30,7 +29,7 @@ export const SearchStationInputStyle = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: theme.BACKGROUND_COLOR,
         width: '100%',
-        borderRadius: 5,
+        borderRadius: theme.BORDER_RADIUS,
         borderColor: theme.PRIMARY_COLOR_LIGHT,
         borderWidth: 1,
         opacity: theme.CONTAINER_OPACITY,
@@ -75,6 +74,8 @@ export const mapStyles = MapboxGL.StyleSheet.create({
 export const locatorStyle = StyleSheet.create({
     container: {
         borderRadius: 25,
+        borderColor: theme.PRIMARY_COLOR_LIGHT,
+        borderWidth: 1,
         width: 50,
         height: 50,
         margin: 4,
@@ -97,7 +98,7 @@ export const stationInfoStyle = StyleSheet.create({
         height: 300,
         borderColor: theme.PRIMARY_COLOR_LIGHT,
         borderWidth: 1,
-        borderRadius: 20,
+        borderRadius: theme.BORDER_RADIUS,
         margin: 4,
         opacity: theme.CONTAINER_OPACITY,
         justifyContent: 'space-evenly',
@@ -154,5 +155,20 @@ export const stationInfoStyle = StyleSheet.create({
         margin: 2,
         backgroundColor: theme.PRIMARY_COLOR_LIGHT,
 
+    }
+})
+
+export const tripInfoStyle = StyleSheet.create({
+    container: {
+        backgroundColor: theme.BACKGROUND_COLOR,
+        width: '70%',
+        height: 300,
+        borderColor: theme.PRIMARY_COLOR_LIGHT,
+        borderWidth: 1,
+        borderRadius: theme.BORDER_RADIUS,
+        margin: 4,
+        opacity: theme.CONTAINER_OPACITY,
+        justifyContent: 'space-evenly',
+        alignItems: 'center'
     }
 })

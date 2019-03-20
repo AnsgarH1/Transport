@@ -15,7 +15,7 @@ export const resetTripResults = () => ({
 export const SET_STATIONSEARCH_RESULTS = 'SET_STATIONSEARCH_RESULTS'
 export const RESET_STATIONSEARCH_RESULTS = 'RESET_STATIONSEARCH_RESULTS'
 
-export const setStationsResults = stationsResults => ({
+export const setStationsResults = (stationsResults = []) => ({
     type: SET_STATIONSEARCH_RESULTS,
     payload: stationsResults
 })

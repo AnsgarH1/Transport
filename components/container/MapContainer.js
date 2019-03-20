@@ -119,7 +119,7 @@ export class MapComponent extends Component {
 
         this.props.setStart({ long: this.props.UserData.position.longitude, lat: this.props.UserData.position.latitude })
 
-        const baseURL = "https://www.rmv.de/hapi/trip?accessId=2e275638-45cb-4f79-b647-dcbbfb7a76e2&format=json&numF=2&originWalk=true&destWalk=true"
+        const baseURL = "https://www.rmv.de/hapi/trip?accessId=2e275638-45cb-4f79-b647-dcbbfb7a76e2&format=json&numF=2&originWalk=1,0,500&destWalk=1,0,500&originCar=0&destCar=0&originBike=0&destBike=0&originTaxi=0&destTaxi=0"
 
         let startString = ''
 
@@ -166,7 +166,6 @@ export class MapComponent extends Component {
             this.pushCoordinateToLineFeatures(tripLegsGeoJson, { lat: item.Origin.lat, long: item.Origin.lon })
             this.pushCoordinateToLineFeatures(tripLegsGeoJson, { lat: item.Destination.lat, long: item.Destination.lon })
         })
-        console.log(JSON.stringify(tripLegsGeoJson, 2, 2))
         this.props.setGeoList(tripLegsGeoJson)
 
 

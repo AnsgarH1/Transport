@@ -5,9 +5,7 @@ import { activateMapFlyTo } from '../../redux/actions/uxActions';
 
 export class LocatorButton extends Component {
 
-    componentDidUpdate() {
-        console.log(this.props.state)
-    }
+  
     onPressHandler = () => {
         const coords = {
             long: this.props.userPosition.longitude,

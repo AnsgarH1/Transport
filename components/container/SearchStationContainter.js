@@ -9,6 +9,8 @@ import { addMarker, setMarkers, setRoute } from '../../redux/actions/mapActions'
 import { setDestinationStation, setStartCoords, setPosition, setDestinationCoords, setStartStation } from '../../redux/actions/userdataActions';
 import { setStationsResults, setTripResults } from '../../redux/actions/apiActions';
 
+import { getStationList } from '../../api/apiCalls'
+
 class SearchStationContainer extends Component {
     state = {
         TextInput: '',
@@ -40,27 +42,31 @@ class SearchStationContainer extends Component {
 
 
     getStationResults = async (stationName = '') => {
-        apiUrl = 'https://www.rmv.de/hapi/location.name?accessId=2e275638-45cb-4f79-b647-dcbbfb7a76e2&format=json&type=S&input=' + stationName;
 
-        await fetch(apiUrl, { method: 'GET' })
-            .then((response) => response.json())
-            .then((response) => {
-                this.props.setStationResults(response)
-                console.log(this.props.state)
-            })
-            .catch((error) => {
-                console.log(error)
-            });
+        if (getStationList(stationName)) {
+            await this.createListItems()
+        } else {
+            console.log("Error while fetching Station!!")
+        }
 
-        this.createListItems()
+
+
+
 
     }
 
 
     createListItems = () => {
-        if (this.state.TextInput.length > 0 && this.props.SearchResults != null) {
-            let listItems = this.props.SearchResults.stopLocationOrCoordLocation.map((item, index) => {
-                return (<ListItem onPress={() => { this.onItemSelection(item) }} key={'id_' + index} containerStyle={{ margin: 1 }} title={item.StopLocation.name} />)
+
+        /**
+         * Aus irgendeinem Grund werden die Sucherergbnisse  als anzahl an Objekten gespeichert, weshalb die mit Object.values 
+         * erst wieder in einen Array umgewandelt werden müssen. (wtf?)
+         */
+        let temp = Object.values(this.props.SearchResults)
+        if (this.state.TextInput.length > 0 && this.props.SearchResults != {} && this.props.SearchResults != null) {
+            let listItems = []
+            temp.forEach((item, index) => {
+                listItems.push(<ListItem onPress={() => { this.onItemSelection(item) }} key={'id_' + index} containerStyle={{ margin: 1 }} title={item.name} />)
             })
             this.setState({ listItems })
         } else {
@@ -69,12 +75,12 @@ class SearchStationContainer extends Component {
     }
 
     onItemSelection = item => {
-        this.setState({ TextInput: item.StopLocation.name })
+        this.setState({ TextInput: item.name })
 
 
         const coords = {
-            long: item.StopLocation.lon,
-            lat: item.StopLocation.lat
+            long: item.coords.long,
+            lat: item.coords.lat
         }
 
         let stop = {
@@ -86,8 +92,8 @@ class SearchStationContainer extends Component {
                     "geometry": {
                         "type": "Point",
                         "coordinates": [
-                            item.StopLocation.lon,
-                            item.StopLocation.lat
+                            item.coords.long,
+                            item.coords.lat
                         ]
                     }
                 }
@@ -95,7 +101,7 @@ class SearchStationContainer extends Component {
         }
         this.props.setMarker(stop)
         this.props.mapFlyTo(coords)
-        this.props.setDestinationStation(item.StopLocation.extId)
+        this.props.setDestinationStation(item.extId)
         this.props.setStartCoords({ long: this.props.UserData.position.longitude, lat: this.props.UserData.position.latitude })
         this.tripSearch()
 
@@ -103,9 +109,9 @@ class SearchStationContainer extends Component {
 
     tripSearch = async () => {
 
-        
 
-        const baseURL = "https://www.rmv.de/hapi/trip?accessId=2e275638-45cb-4f79-b647-dcbbfb7a76e2&format=json&numF=2&originWalk=true&destWalk=true"
+
+        const baseURL = "https://www.rmv.de/hapi/trip?accessId=2e275638-45cb-4f79-b647-dcbbfb7a76e2&format=json&numF=2&originWalk=1,0,500&destWalk=1,0,500&originCar=0&destCar=0&originBike=0&destBike=0&originTaxi=0&destTaxi=0"
 
         let startString = ''
 
@@ -130,7 +136,6 @@ class SearchStationContainer extends Component {
             .then((response) => response.json())
             .then((response => {
                 this.props.updateTripResults(response)
-                console.log(this.props.state)
             }))
             .catch(error => console.log('FETCH_ERROR', error))
 
@@ -153,7 +158,7 @@ class SearchStationContainer extends Component {
             this.pushCoordinateToLineFeatures(tripLegsGeoJson, { lat: item.Origin.lat, long: item.Origin.lon })
             this.pushCoordinateToLineFeatures(tripLegsGeoJson, { lat: item.Destination.lat, long: item.Destination.lon })
         })
-        console.log(JSON.stringify(tripLegsGeoJson, 2, 2))
+
         this.props.setGeoList(tripLegsGeoJson)
 
 
@@ -165,7 +170,6 @@ class SearchStationContainer extends Component {
     pushCoordinateToLineFeatures = (featureCollection, coords) => {
         featureCollection.features[0].geometry.coordinates.push([coords.long, coords.lat])
 
-        console.log("Hier", featureCollection)
 
     }
 

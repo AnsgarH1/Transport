@@ -50,15 +50,10 @@ class SearchStationContainer extends Component {
 
     createListItems = () => {
 
-        /**
-         * for some reason, all stops are stored in an Object know instead of an Array, therefore
-         *  i have to use the temp variable wich transforms them back to an array. (wtf?)
-         */
-        let temp = Object.values(this.props.SearchResults)
         if (this.state.TextInput.length > 0 && this.props.SearchResults != {} && this.props.SearchResults != null) {
             //item is a station object (i hope)
             let listItems = []
-            temp.forEach((item, index) => {
+            this.props.SearchResults.forEach((item, index) => {
                 listItems.push(<ListItem onPress={() => { this.onItemSelection(item) }} key={'id_' + index} containerStyle={{ margin: 1 }} title={item.name} />)
             })
             this.setState({ listItems })

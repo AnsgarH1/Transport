@@ -23,12 +23,12 @@ const tripResultsReducer = (state = [], action) => {
     }
 }
 
-const stationSearchReducer = (state = {}, action) => {
+const stationSearchReducer = (state = [], action) => {
     switch (action.type) {
         case SET_STATIONSEARCH_RESULTS:
-            return { ...action.payload }
+            return action.payload
         case RESET_STATIONSEARCH_RESULTS:
-            return {}
+            return ([])
         default:
             return state
     }

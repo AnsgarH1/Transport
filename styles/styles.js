@@ -172,3 +172,13 @@ export const tripInfoStyle = StyleSheet.create({
         alignItems: 'center'
     }
 })
+
+export const iconText = MapboxGL.StyleSheet.create({
+    icon: {
+      textField: '{text}',
+      iconAllowOverlap: true,
+      textSize: 10,
+      iconSize: 0.4,
+      textColor: theme.PRIMARY_COLOR
+    },
+  });

@@ -1,4 +1,5 @@
 import {
+    ADD_TRIP_RESULT,
     SET_TRIP_RESULTS,
     RESET_TRIP_RESULTS,
     SET_STATIONSEARCH_RESULTS,
@@ -8,12 +9,15 @@ import {
 import { combineReducers } from 'redux'
 
 
-const tripResultsReducer = (state = {}, action) => {
+const tripResultsReducer = (state = [], action) => {
     switch (action.type) {
+        case ADD_TRIP_RESULT:
+            state.push(action.payload)
+            return state
         case SET_TRIP_RESULTS:
-            return { ...action.payload }
+            return [action.payload]
         case RESET_TRIP_RESULTS:
-            return ({})
+            return ([])
         default:
             return state
     }

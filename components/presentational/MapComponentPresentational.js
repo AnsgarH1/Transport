@@ -1,11 +1,29 @@
 import React, { Component } from 'react'
 import { Text, View, Button, TouchableOpacity } from 'react-native'
 
-import { mapStyles } from '../../styles/styles'
+import { mapStyles, iconText } from '../../styles/styles'
 
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 MapboxGL.setAccessToken('pk.eyJ1IjoibGFuZGViYW5hbmUiLCJhIjoiY2pxNnU4ZDBjMmJsdzQ4dGQ5dmFzMXEyZSJ9.whDClIyCqxmtb5zzCQac3A');
 
+
+
+const geoJSONsource = {
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {text: "TEST-TEXT"},
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    8.243865966796875,
+                    50.070968214131916
+                ]
+            }
+        }
+    ]
+}
 
 
 export class MapComponentPresential extends Component {
@@ -72,10 +90,19 @@ export class MapComponentPresential extends Component {
                     compassEnabled={true}
                     pitchEnabled={false}
                     localizeLabels={true}
-                    onPress={(event) => {this.props.onPressHandler(event)}}>
+                    onPress={(event) => { this.props.onPressHandler(event) }}>
 
                     {this.props.MapLineFeatures != null ? this.returnLine() : null}
                     {this.props.MapFeatures != null ? this.returnSymbols() : null}
+                    <MapboxGL.ShapeSource
+                        id="randomTest"
+                        shape={geoJSONsource}>
+                        <MapboxGL.SymbolLayer
+                            id="SomeID"
+                            style={iconText.icon}
+                        />
+
+                    </MapboxGL.ShapeSource>
                 </MapboxGL.MapView>
             </TouchableOpacity>
         )

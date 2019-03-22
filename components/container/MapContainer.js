@@ -5,13 +5,14 @@ import { connect } from 'react-redux'
 import MapComponentPresentational from '../presentational/MapComponentPresentational'
 
 import { deactivateMapFlyTo } from '../../redux/actions/uxActions'
-import { setPosition, selectDestination, setStartCoords, setDestinationStation, setDestinationCoords } from '../../redux/actions/userdataActions';
+import { setPosition, setOriginCoords, setDestinationCoords } from '../../redux/actions/userdataActions';
 
 
 import { LocationPermissionText } from '../../styles/texts'
 import { setTripResults } from '../../redux/actions/apiActions';
-import { setMarkers, setRoute } from '../../redux/actions/mapActions';
 
+//temp
+import { resetTrip } from '../../agents/trip'
 
 const startCoords = {
     long: 50.1070,
@@ -25,7 +26,6 @@ export class MapComponent extends Component {
     componentDidMount() {
 
 
-
         //Asks for LocationPermission
         this.requestPositionPermission()
 
@@ -33,8 +33,10 @@ export class MapComponent extends Component {
         navigator.geolocation.getCurrentPosition(position => {
 
             console.log("USER_LOCATION_RECEIVED, ", position)
+            
             this.props.updatePosition(position.coords)
-
+            //Resets the trip origin to the user location
+            resetTrip()
         }, error => console.log("POSITION_ERROR" + error))
 
         //Gets the user Position and updates it to the store
@@ -46,8 +48,10 @@ export class MapComponent extends Component {
         }, error => console.log(error))
 
 
-        console.log(this.props.state)
-        this.props.setStart({ long: this.props.UserData.position.longitude, lat: this.props.UserData.position.latitude })
+
+
+
+
     }
 
     requestPositionPermission = async () => {
@@ -112,81 +116,10 @@ export class MapComponent extends Component {
         this.props.setGeoFeature(stop)
 
         this.setState({ stop })
-        this.tripSearch()
-
-    }
-    tripSearch = async () => {
-
-        this.props.setStart({ long: this.props.UserData.position.longitude, lat: this.props.UserData.position.latitude })
-
-        const baseURL = "https://www.rmv.de/hapi/trip?accessId=2e275638-45cb-4f79-b647-dcbbfb7a76e2&format=json&numF=2&originWalk=1,0,500&destWalk=1,0,500&originCar=0&destCar=0&originBike=0&destBike=0&originTaxi=0&destTaxi=0"
-
-        let startString = ''
-
-        if (this.props.UserData.start.type == 'STOP_LOCATION') {
-            startString = '&originExtId=' + this.props.UserData.start.extId
-        } else {
-            startString = '&originCoordLat=' + this.props.UserData.start.coords.lat + '&originCoordLong=' + this.props.UserData.start.coords.long
-        }
-
-        let destinationString = ''
-
-        if (this.props.UserData.destination.type == 'STOP_LOCATION') {
-            destinationString = '&extId=' + this.props.UserData.destination.extId
-        } else {
-            destinationString = '&destCoordLat=' + this.props.UserData.destination.coords.lat + '&destCoordLong=' + this.props.UserData.destination.coords.long
-        }
-
-
-        const url = baseURL + startString + destinationString
-        await fetch(url, { methode: 'GET' })
-            .then((response) => response.json())
-            .then((response => {
-                this.props.updateTripResults(response)
-                console.log(this.props.state)
-            }))
-            .catch(error => console.log('FETCH_ERROR', error))
-
-        let tripLegsGeoJson = {
-            "type": "FeatureCollection",
-            "features": [
-                {
-                    "type": "Feature",
-                    "properties": {},
-                    "geometry": {
-                        "type": "LineString",
-                        "coordinates": [
-
-                        ]
-                    }
-                }
-            ]
-        }
-        this.props.state.ApiResults.TripResults.Trip[0].LegList.Leg.map((item, index) => {
-            this.pushCoordinateToLineFeatures(tripLegsGeoJson, { lat: item.Origin.lat, long: item.Origin.lon })
-            this.pushCoordinateToLineFeatures(tripLegsGeoJson, { lat: item.Destination.lat, long: item.Destination.lon })
-        })
-        this.props.setGeoList(tripLegsGeoJson)
-
-
-
 
     }
 
 
-    pushCoordinateToLineFeatures = (featureCollection, coords) => {
-        featureCollection.features[0].geometry.coordinates.push([coords.long, coords.lat])
-
-        console.log("Hier", featureCollection)
-
-    }
-
-    pushCoordinateToLineFeatures = (featureCollection, coords) => {
-        featureCollection.features[0].geometry.coordinates.push([coords.long, coords.lat])
-
-        console.log("Hier", featureCollection)
-
-    }
     render() {
 
         return (
@@ -215,12 +148,9 @@ const mapDispatchToProps = dispatch => {
         updatePosition: (coords) => dispatch(setPosition(coords)),
 
         setCoordDestination: coords => dispatch(setDestinationCoords(coords)),
-        setStart: startCoords => dispatch(setStartCoords(startCoords)),
+        setStart: startCoords => dispatch(setOriginCoords(startCoords)),
 
         updateTripResults: (tripResults) => dispatch(setTripResults(tripResults)),
-
-        setGeoFeature: featureList => dispatch(setMarkers(featureList)),
-        setGeoList: geoList => dispatch(setRoute(geoList))
     }
 }
 

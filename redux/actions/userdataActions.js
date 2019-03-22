@@ -12,22 +12,22 @@ export const resetPosition = () => ({
     type: RESET_POSITION
 })
 
-export const SET_START_STATION = 'SET_START_STATION'
-export const SET_START_COORDS = 'SET_START_COORDS'
-export const RESET_START = 'RESET_START'
+export const SET_ORIGIN_STATION = 'SET_ORIGIN_STATION'
+export const SET_ORIGIN_COORDS = 'SET_ORIGIN_COORDS'
+export const RESET_ORIGIN = 'RESET_ORIGIN'
 
-export const setStartStation = extI => ({
-    type: SET_START_STATION,
+export const setOriginStation = extId => ({
+    type: SET_ORIGIN_STATION,
     payload: extId
 })
 
-export const setStartCoords = (coords = { long, lat }) => ({
-    type: SET_START_COORDS,
+export const setOriginCoords = (coords = { long, lat }) => ({
+    type: SET_ORIGIN_COORDS,
     payload: coords
 })
 
-export const resetStart = () => ({
-    type: RESET_START
+export const resetOrigin = () => ({
+    type: RESET_ORIGIN
 })
 
 

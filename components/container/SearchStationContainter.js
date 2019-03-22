@@ -6,10 +6,11 @@ import SearchStationComponentPresentational from '../presentational/SearchStatio
 import { ListItem } from 'react-native-elements';
 import { activateMapFlyTo } from '../../redux/actions/uxActions';
 import { addMarker, setMarkers, setRoute } from '../../redux/actions/mapActions';
-import { setDestinationStation, setStartCoords, setPosition, setDestinationCoords, setStartStation } from '../../redux/actions/userdataActions';
+import { setDestinationStation, setOriginCoords, setPosition, setDestinationCoords, setOriginStation } from '../../redux/actions/userdataActions';
 import { setStationsResults, setTripResults } from '../../redux/actions/apiActions';
 
-import { getStationList } from '../../api/apiCalls'
+import { getStationList, tripSearch } from '../../agents/apiCalls'
+import { setTripDestination } from '../../agents/trip'
 
 class SearchStationContainer extends Component {
     state = {
@@ -30,15 +31,6 @@ class SearchStationContainer extends Component {
         })
     }
 
-    getDepartures = async (stationExtId) => {
-
-        apiUrl = 'https://www.rmv.de/hapi/departureBoard?accessId=2e275638-45cb-4f79-b647-dcbbfb7a76e2&format=json&type=S&extId=' + stationExtId
-
-        await fetch(apiUrl, { method: 'GET' })
-            .then((response) => response.json())
-            .then((response) => { this.props.updateDepartureResults(response) })
-            .catch(error => console.log("Error while fetching departure Results: ", error))
-    }
 
 
     getStationResults = async (stationName = '') => {
@@ -59,11 +51,12 @@ class SearchStationContainer extends Component {
     createListItems = () => {
 
         /**
-         * Aus irgendeinem Grund werden die Sucherergbnisse  als anzahl an Objekten gespeichert, weshalb die mit Object.values 
-         * erst wieder in einen Array umgewandelt werden müssen. (wtf?)
+         * for some reason, all stops are stored in an Object know instead of an Array, therefore
+         *  i have to use the temp variable wich transforms them back to an array. (wtf?)
          */
         let temp = Object.values(this.props.SearchResults)
         if (this.state.TextInput.length > 0 && this.props.SearchResults != {} && this.props.SearchResults != null) {
+            //item is a station object (i hope)
             let listItems = []
             temp.forEach((item, index) => {
                 listItems.push(<ListItem onPress={() => { this.onItemSelection(item) }} key={'id_' + index} containerStyle={{ margin: 1 }} title={item.name} />)
@@ -78,10 +71,7 @@ class SearchStationContainer extends Component {
         this.setState({ TextInput: item.name })
 
 
-        const coords = {
-            long: item.coords.long,
-            lat: item.coords.lat
-        }
+
 
         let stop = {
             "type": "FeatureCollection",
@@ -100,10 +90,19 @@ class SearchStationContainer extends Component {
             ]
         }
         this.props.setMarker(stop)
-        this.props.mapFlyTo(coords)
-        this.props.setDestinationStation(item.extId)
-        this.props.setStartCoords({ long: this.props.UserData.position.longitude, lat: this.props.UserData.position.latitude })
-        this.tripSearch()
+        this.props.mapFlyTo(item.coords)
+
+        //VERALTET!!----
+        /** this.props.setDestinationStation(item.extId) //veraltet
+         this.props.setStartCoords({ long: this.props.UserData.position.longitude, lat: this.props.UserData.position.latitude }) /
+             this.tripSearch()
+         console.log(this.props.state)
+        
+         */
+        setTripDestination(type = "STATION", station = item)
+        tripSearch()
+
+
 
     }
 
@@ -204,7 +203,7 @@ const mapDispatchToProps = dispatch => ({
     updatePosition: (coords) => dispatch(setPosition(coords)),
 
     setCoordDestination: coords => dispatch(setDestinationCoords(coords)),
-    setStartCoords: startCoords => dispatch(setStartCoords(startCoords)),
+    setStartCoords: startCoords => dispatch(setOriginCoords(startCoords)),
 
     updateTripResults: (tripResults) => dispatch(setTripResults(tripResults)),
 

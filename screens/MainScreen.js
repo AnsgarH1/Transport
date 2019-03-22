@@ -20,7 +20,7 @@ export default class MainScreen extends Component {
                     <MapContainer />
                 </View>
                 <View style={mainScreenStyle.content}>
-                    <TripInfoComponentContainer />
+                   {/**<TripInfoComponentContainer/> */}
                     <LocatorButton />
                     <SearchStationContainer />
 

@@ -6,9 +6,9 @@ import {
     SET_DESTINATION_STATION,
     RESET_DESTINATION,
 
-    SET_START_COORDS,
-    SET_START_STATION,
-    RESET_START
+    SET_ORIGIN_COORDS,
+    SET_ORIGIN_STATION,
+    RESET_ORIGIN
 
 } from '../actions/userdataActions'
 
@@ -42,16 +42,16 @@ const destinationReducer = (state = { type: 'COORD_LOCATION', coords: {}, extId:
     }
 }
 
-const startReducer = (state = {}, action) => {
+const originReducer = (state = {}, action) => {
     switch (action.type) {
-        case SET_START_COORDS: {
+        case SET_ORIGIN_COORDS: {
             return ({
                 type: 'COORD_LOCATION',
                 coords: action.payload
 
             })
         }
-        case SET_START_STATION: {
+        case SET_ORIGIN_STATION: {
             let returnData = {
                 type: 'STOP_LOCATION',
                 extId: action.payload,
@@ -59,7 +59,7 @@ const startReducer = (state = {}, action) => {
             }
             return returnData
         }
-        case RESET_START: {
+        case RESET_ORIGIN: {
             return ({
                 type: 'COORD_LOCATION'
             })
@@ -71,5 +71,5 @@ const startReducer = (state = {}, action) => {
 export const userDataReducer = combineReducers({
     position: positionReducer,
     destination: destinationReducer,
-    start: startReducer
+    start: originReducer
 })
